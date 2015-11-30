@@ -1,3 +1,5 @@
+#include <Timer.h>
+#include <Event.h>
 #include <midi_Settings.h>
 #include <midi_Defs.h>
 #include <midi_Namespace.h>
@@ -23,9 +25,9 @@
 #define NOTE_C2 12
 #define NOTE_C2_INDEX 7
 #define NUM_SERVOS 4
-
+ 
 Servo servos[4];
-
+Timer t;
 const int servoPins[4] = {2, 3, 4, 5};    //defines which pin each servo attaches to
 const int center[4] = {90, 90, 90, 90};    //defines the true center value for the servo
 const int noteServo[8] = {0, 0, 1, 1, 2, 2, 3, 3};    //defines which note maps to which servo
@@ -80,10 +82,57 @@ void setup(){
 
 void loop(){
   MIDI.read();
+  t.update();
 }
 //strikes a note according to noteNum and constants defined above
 void strikeNote(int noteNum) {
   servos[noteServo[noteNum]].write(noteValue[noteNum]);
-  delay(noteDelay[noteNum]);
-  servos[noteServo[noteNum]].write(center[noteServo[noteNum]]);
+  setTimer(noteNum);
+}
+int setTimer(int noteNum) {
+  switch(noteNum) {
+    case NOTE_C_INDEX:
+      return t.after(noteDelay[noteNum], timerStopC);
+    case NOTE_D_INDEX:
+      return t.after(noteDelay[noteNum], timerStopD);;
+    case NOTE_E_INDEX:
+      return t.after(noteDelay[noteNum], timerStopE);
+    case NOTE_F_INDEX:
+      return t.after(noteDelay[noteNum], timerStopF);
+    case NOTE_G_INDEX:
+      return t.after(noteDelay[noteNum], timerStopG);
+    case NOTE_A_INDEX:
+      return t.after(noteDelay[noteNum], timerStopA);
+    case NOTE_B_INDEX:
+      return t.after(noteDelay[noteNum], timerStopB);
+    case NOTE_C2_INDEX:
+      return t.after(noteDelay[noteNum], timerStopC2);
+    default:
+      //do nothing
+      break;
+  }
+}
+void timerStopC() {
+  servos[servoPins[NOTE_C_INDEX]].write(center[servoPins[NOTE_C_INDEX]]);
+}
+void timerStopD() {
+  servos[servoPins[NOTE_D_INDEX]].write(center[servoPins[NOTE_D_INDEX]]);
+}
+void timerStopE() {
+  servos[servoPins[NOTE_E_INDEX]].write(center[servoPins[NOTE_E_INDEX]]);
+}
+void timerStopF() {
+  servos[servoPins[NOTE_F_INDEX]].write(center[servoPins[NOTE_F_INDEX]]);
+}
+void timerStopG() {
+  servos[servoPins[NOTE_G_INDEX]].write(center[servoPins[NOTE_G_INDEX]]);
+}
+void timerStopA() {
+  servos[servoPins[NOTE_A_INDEX]].write(center[servoPins[NOTE_A_INDEX]]);
+}
+void timerStopB() {
+  servos[servoPins[NOTE_B_INDEX]].write(center[servoPins[NOTE_B_INDEX]]);
+}
+void timerStopC2() {
+  servos[servoPins[NOTE_C2_INDEX]].write(center[servoPins[NOTE_C2_INDEX]]);
 }
