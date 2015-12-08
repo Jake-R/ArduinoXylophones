@@ -32,14 +32,15 @@
 //#define DO_PIEZO
 #define LEDPIN 7
 //#define NDEBUG
+#define BLOCK_FOR_TONE
 
 Servo servos[NUM_SERVOS];
 Timer t;
 const int servoPins[NUM_SERVOS] = {5, 6, 7, 11};    //defines which pin each servo attaches to
-const int center[NUM_SERVOS] = {95, 90, 90, 90};    //defines the true center value for the servo
+const int center[NUM_SERVOS] = {95, 95, 95, 95};    //defines the true center value for the servo
 const int noteServo[8] = {0, 1, 2, 3, 0, 1, 2, 3};    //defines which note maps to which servo
 const int noteValue[8] = {180, 180, 0, 0, 0, 0, 180, 180};   //defines which direction to swing the servo to hit the note
-const int noteDelay[8] = {110, 150, 130, 110, 135, 120, 130, 115};  //defines the number of milliseconds it takes to hit the note
+const int noteDelay[8] = {120, 150, 135, 110, 140, 120, 130, 115};  //defines the number of milliseconds it takes to hit the note
 const int notePWM[8]={0 , 0, 0, 0, 0, 0, 0, 0};
 int octaveOffset = 60;    //must increment or decrement by 12 to shift one octave
 SoftwareSerial SoftSerial(8, 9);
@@ -121,7 +122,13 @@ void strikeNote(int noteNum) {
   tone(PIEZO_PIN, notePWM[noteNum]);
 #endif
   servos[noteServo[noteNum]].write(noteValue[noteNum]);
+#ifdef BLOCK_FOR_NOTE
+  delay(noteDelay(noteNum));
+  servos[noteServo[noteNum]].write(center[noteServo[noteNum]]]);
+#endif
+#ifndef BLOCK_FOR_NOTE
   setTimer(noteNum);
+#endif
 }
 int setTimer(int noteNum) {
   switch(noteNum) {
