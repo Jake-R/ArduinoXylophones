@@ -29,18 +29,18 @@
 #define NUM_SERVOS 4
 
 #define PIEZO_PIN 10
-#define DO_PIEZO
+//#define DO_PIEZO
 #define LEDPIN 7
 //#define NDEBUG
 
 Servo servos[NUM_SERVOS];
 Timer t;
 const int servoPins[NUM_SERVOS] = {5, 6, 7, 11};    //defines which pin each servo attaches to
-const int center[NUM_SERVOS] = {90, 90, 90, 90};    //defines the true center value for the servo
-const int noteServo[8] = {0, 0, 1, 1, 2, 2, 3, 3};    //defines which note maps to which servo
-const int noteValue[8] = {180, 0, 180, 0, 180, 0, 180, 0};   //defines which direction to swing the servo to hit the note
-const int noteDelay[8] = {100, 100, 100, 100, 100, 100, 100, 100};  //defines the number of milliseconds it takes to hit the note
-const int notePWM[8]={NOTE_C5,NOTE_D5, NOTE_E5, NOTE_F5, NOTE_G5, NOTE_A5, NOTE_B5, NOTE_C6};
+const int center[NUM_SERVOS] = {95, 90, 90, 90};    //defines the true center value for the servo
+const int noteServo[8] = {0, 1, 2, 3, 0, 1, 2, 3};    //defines which note maps to which servo
+const int noteValue[8] = {180, 180, 0, 0, 0, 0, 180, 180};   //defines which direction to swing the servo to hit the note
+const int noteDelay[8] = {110, 150, 130, 110, 135, 120, 130, 115};  //defines the number of milliseconds it takes to hit the note
+const int notePWM[8]={0 , 0, 0, 0, 0, 0, 0, 0};
 int octaveOffset = 60;    //must increment or decrement by 12 to shift one octave
 SoftwareSerial SoftSerial(8, 9);
 MIDI_CREATE_INSTANCE(SoftwareSerial, SoftSerial, MIDI);
@@ -151,47 +151,47 @@ void timerStopC() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note C");
 #endif
-  servos[servoPins[NOTE_C_INDEX]].write(center[servoPins[NOTE_C_INDEX]]);
+  servos[noteServo[NOTE_C_INDEX]].write(center[noteServo[NOTE_C_INDEX]]);
 }
 void timerStopD() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note D");
 #endif
-  servos[servoPins[NOTE_D_INDEX]].write(center[servoPins[NOTE_D_INDEX]]);
+  servos[noteServo[NOTE_D_INDEX]].write(center[noteServo[NOTE_D_INDEX]]);
 }
 void timerStopE() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note E");
 #endif
-  servos[servoPins[NOTE_E_INDEX]].write(center[servoPins[NOTE_E_INDEX]]);
+  servos[noteServo[NOTE_E_INDEX]].write(center[noteServo[NOTE_E_INDEX]]);
 }
 void timerStopF() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note F");
 #endif
-  servos[servoPins[NOTE_F_INDEX]].write(center[servoPins[NOTE_F_INDEX]]);
+  servos[noteServo[NOTE_F_INDEX]].write(center[noteServo[NOTE_F_INDEX]]);
 }
 void timerStopG() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note G");
 #endif
-  servos[servoPins[NOTE_G_INDEX]].write(center[servoPins[NOTE_G_INDEX]]);
+  servos[noteServo[NOTE_G_INDEX]].write(center[noteServo[NOTE_G_INDEX]]);
 }
 void timerStopA() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note A");
 #endif
-  servos[servoPins[NOTE_A_INDEX]].write(center[servoPins[NOTE_A_INDEX]]);
+  servos[noteServo[NOTE_A_INDEX]].write(center[noteServo[NOTE_A_INDEX]]);
 }
 void timerStopB() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note B");
 #endif
-  servos[servoPins[NOTE_B_INDEX]].write(center[servoPins[NOTE_B_INDEX]]);
+  servos[noteServo[NOTE_B_INDEX]].write(center[noteServo[NOTE_B_INDEX]]);
 }
 void timerStopC2() {
 #ifndef NDEBUG
   Serial.println("Timer Stopped note C2");
 #endif
-  servos[servoPins[NOTE_C2_INDEX]].write(center[servoPins[NOTE_C2_INDEX]]);
+  servos[noteServo[NOTE_C2_INDEX]].write(center[noteServo[NOTE_C2_INDEX]]);
 }
